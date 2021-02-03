@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Response;
+namespace Godamri\HyUtils\Response;
 
 use Growinc\Support\ResponseCode;
 use Hyperf\HttpServer\Contract\ResponseInterface;
