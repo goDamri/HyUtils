@@ -1,5 +1,5 @@
 <?php
-namespace Godamri\HyUtils\Exception;
+namespace Godamri\HyUtils\Exceptions;
 
 use Growinc\Support\ResponseCode;
 
