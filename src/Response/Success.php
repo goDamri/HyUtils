@@ -49,14 +49,11 @@ class Success {
     {
         return (new self($data, $resourceMapper))();
     }
-    public static function message(string $message)
+    public static function message(?string $message = NULL)
     {
         return self::getResponseInterface()
             ->withHeader('Content-Type', 'application/json')
-            ->json([
-                'error' => ResponseCode::SUCCESS,
-                'message' => $message,
-            ]);
+            ->json($message ? [ 'error' => ResponseCode::SUCCESS, 'message' => $message ] : [ 'error' => ResponseCode::SUCCESS ] );
     }
     
     static function getResponseInterface(): ResponseInterface
