@@ -21,11 +21,11 @@ class Success {
     {
         $build = [
             'error' => 0,
-            'data' => is_object($this->data)?method_exists($this->data , 'items')?$this->data->items():method_exists($this->data, 'toArray')?$this->data->toArray():(array)$this->data:$this->data,
+            'data' => is_object($this->data)?(method_exists($this->data , 'items')?$this->data->items():(method_exists($this->data, 'toArray')?$this->data->toArray():(array)$this->data)):$this->data,
         ];
         $this->meta ? $build['meta'] = $this->meta: false;
         if( $this->resourceMapper ) {
-            if (isset($build['data']) && is_object($build['data'][0]))
+            if (isset($build['data']) && is_array($build['data']) && is_object($build['data'][0]))
                 $build['data'] = (new $this->resourceMapper($build['data']))();
             else
                 $build['data'] = \current((new $this->resourceMapper([(object)$build['data']]))()) ?? null;
