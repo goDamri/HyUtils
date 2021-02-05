@@ -9,29 +9,45 @@ class Success {
     
     protected $data;
     protected $meta;
+    protected $resourceMapper;
     
-    public function __construct($data, $meta = null)
+    public function __construct($data, $resourceMapper = null)
     {
         $this->data = $data;
-        $this->meta = $meta;
+        $this->resourceMapper = $resourceMapper;
     }
     
     public function __invoke()
     {
         $build = [
             'error' => 0,
-            'data' => $this->data,
+            'data' => is_object($this->data)?method_exists($this->data , 'items')?$this->data->items():(array)$this->data:$this->data,
         ];
         $this->meta ? $build['meta'] = $this->meta: false;
+        if( $this->resourceMapper ) {
+            if (isset($build['data']) && is_object($build['data'][0]))
+                $build['data'] = (new $this->resourceMapper($build['data']))();
+            else
+                $build['data'] = \current((new $this->resourceMapper([(object)$build['data']]))()) ?? null;
+        }
+        if(is_object($this->data) && method_exists($this->data, 'total')) {
+            $build['meta'] = [
+                'page' => $this->data->currentPage(),
+                'last_page' => $this->data->lastPage(),
+                'per_page' => $this->data->perPage(),
+                'total' => $this->data->total(),
+                'link' => rtrim(request()->url(), '?'),
+            ];
+        }
         
         return self::getResponseInterface()
             ->withHeader('Content-Type', 'application/json')
             ->json($build);
     }
     
-    public static function ok($data)
+    public static function ok($data, $resourceMapper = null)
     {
-        return (new self($data))();
+        return (new self($data, $resourceMapper))();
     }
     public static function message(string $message)
     {
