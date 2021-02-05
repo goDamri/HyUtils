@@ -21,7 +21,7 @@ class Success {
     {
         $build = [
             'error' => 0,
-            'data' => is_object($this->data)?method_exists($this->data , 'items')?$this->data->items():(array)$this->data:$this->data,
+            'data' => is_object($this->data)?method_exists($this->data , 'items')?$this->data->items():method_exists($this->data, 'toArray')?$this->data->toArray():(array)$this->data:$this->data,
         ];
         $this->meta ? $build['meta'] = $this->meta: false;
         if( $this->resourceMapper ) {
