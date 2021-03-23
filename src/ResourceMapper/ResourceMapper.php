@@ -15,8 +15,9 @@ class ResourceMapper
     
     private function mapResources() : void
     {
-        foreach ($this->resources as $resource)
+        foreach ($this->resources as $resource) {
             $this->mapFields($resource);
+        }
     }
     private function mapFields($resource)
     {
@@ -24,10 +25,12 @@ class ResourceMapper
         $tmpMappedResource = [];
         if(count((array)$resource)>0) {
             foreach ($this->map() as $key => $map)
-                if (isset($resource->{$key}))
+                if (isset($resource->{$key})) {
                     $tmpMappedResource[$key] = $map;
-                else
-                    $tmpMappedResource[$key] = null;
+                }
+                else {
+                    $tmpMappedResource[$key] = $map;
+                }
         }
         
         $this->mappedResources[] = $tmpMappedResource;

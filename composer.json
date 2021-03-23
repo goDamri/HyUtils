@@ -14,5 +14,7 @@
             "Godamri\\HyUtils\\": "src"
         }
     },
-    "require": {}
+    "require": {
+        "growinc/support": "^0.1.2"
+    }
 }
