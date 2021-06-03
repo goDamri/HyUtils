@@ -24,13 +24,17 @@ class ResourceMapper
         $this->resource = $resource;
         $tmpMappedResource = [];
         if(count((array)$resource)>0) {
-            foreach ($this->map() as $key => $map)
+            foreach ($this->map() as $key => $map) {
+                if($map === '*' || $key === '*') {
+                    $tmpMappedResource = $resource;
+                    break;
+                }
                 if (isset($resource->{$key})) {
                     $tmpMappedResource[$key] = $map;
-                }
-                else {
+                } else {
                     $tmpMappedResource[$key] = $map;
                 }
+            }
         }
         
         $this->mappedResources[] = $tmpMappedResource;
