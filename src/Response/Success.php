@@ -39,6 +39,8 @@ class Success {
                 'per_page' => $this->data->perPage(),
                 'total' => $this->data->total(),
                 'link' => rtrim(request()->url(), '?'),
+                'prev' => $this->data->previousPageUrl(),
+                'next' => $this->data->nextPageUrl(),
             ];
         }
         
