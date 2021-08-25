@@ -9,11 +9,11 @@ use Hyperf\Utils\Codec\Json;
 use Psr\Http\Message\ResponseInterface;
 use Hyperf\Contract\StdoutLoggerInterface;
 use Hyperf\HttpMessage\Stream\SwooleStream;
-use Hyperf\ExceptionHandler\ExceptionHandler;
+use Hyperf\ExceptionHandler\ExceptionHandler as Handler;
 use Hyperf\HttpMessage\Exception\NotFoundHttpException;
 use Hyperf\HttpMessage\Exception\MethodNotAllowedHttpException;
 
-class Handler extends ExceptionHandler
+class ExceptionHandler extends Handler
 {
     /**
      * @var StdoutLoggerInterface
