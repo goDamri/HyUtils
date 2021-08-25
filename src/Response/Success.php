@@ -4,19 +4,20 @@ namespace Godamri\HyUtils\Response;
 
 use Growinc\Support\ResponseCode;
 use Hyperf\HttpServer\Contract\ResponseInterface;
+use Hyperf\Utils\ApplicationContext;
 
 class Success {
-    
+
     protected $data;
     protected $meta;
     protected $resourceMapper;
-    
+
     public function __construct($data, $resourceMapper = null)
     {
         $this->data = $data;
         $this->resourceMapper = $resourceMapper;
     }
-    
+
     public function __invoke()
     {
         $build = [
@@ -43,12 +44,12 @@ class Success {
                 'next' => $this->data->nextPageUrl(),
             ];
         }
-        
+
         return self::getResponseInterface()
             ->withHeader('Content-Type', 'application/json')
             ->json($build);
     }
-    
+
     public static function ok($data, $resourceMapper = null)
     {
         return (new self($data, $resourceMapper))();
@@ -59,12 +60,12 @@ class Success {
             ->withHeader('Content-Type', 'application/json')
             ->json($message ? [ 'error' => ResponseCode::SUCCESS, 'message' => $message ] : [ 'error' => ResponseCode::SUCCESS ] );
     }
-    
+
     static function getResponseInterface(): ResponseInterface
     {
-        return container()->get(ResponseInterface::class);
+        return ApplicationContext::getContainer()->get(ResponseInterface::class);
     }
-    
+
     public static function paginate($data, $resourceMapper = null)
     {
         return (new self( $resourceMapper ? (new $resourceMapper($data->items()))() : $data->items(), [
