@@ -12,6 +12,7 @@ use Hyperf\HttpMessage\Stream\SwooleStream;
 use Hyperf\ExceptionHandler\ExceptionHandler as Handler;
 use Hyperf\HttpMessage\Exception\NotFoundHttpException;
 use Hyperf\HttpMessage\Exception\MethodNotAllowedHttpException;
+use Hyperf\HttpMessage\Exception\ServerErrorHttpException;
 
 class ExceptionHandler extends Handler
 {
@@ -83,7 +84,7 @@ class ExceptionHandler extends Handler
 
     protected function isHttpException(Throwable $e)
     {
-        return $e instanceof NotFoundHttpException || $e instanceof MethodNotAllowedHttpException;
+        return $e instanceof NotFoundHttpException || $e instanceof MethodNotAllowedHttpException || $e instanceof ServerErrorHttpException;
     }
 
     protected function log(Throwable $e) : void
