@@ -3,6 +3,7 @@
 namespace Godamri\HyUtils\Response;
 
 use Growinc\Support\ResponseCode;
+use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface;
 use Hyperf\Utils\ApplicationContext;
 
@@ -39,7 +40,7 @@ class Success {
                 'last_page' => $this->data->lastPage(),
                 'per_page' => $this->data->perPage(),
                 'total' => $this->data->total(),
-                'link' => rtrim(request()->url(), '?'),
+                'link' => rtrim(self::getRequestInterface()->url(), '?'),
                 'prev' => $this->data->previousPageUrl(),
                 'next' => $this->data->nextPageUrl(),
             ];
@@ -65,6 +66,10 @@ class Success {
     {
         return ApplicationContext::getContainer()->get(ResponseInterface::class);
     }
+    static function getRequestInterface(): RequestInterface
+    {
+        return ApplicationContext::getContainer()->get(RequestInterface::class);
+    }
 
     public static function paginate($data, $resourceMapper = null)
     {
@@ -73,7 +78,7 @@ class Success {
             'last_page' => $data->lastPage(),
             'per_page' => $data->perPage(),
             'total' => $data->total(),
-            'link' => rtrim(request()->url(), '?'),
+            'link' => rtrim(self::getRequestInterface()->url(), '?'),
         ]))();
     }
 }
