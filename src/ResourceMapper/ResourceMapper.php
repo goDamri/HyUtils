@@ -6,16 +6,17 @@ class ResourceMapper
     protected $resources=[];
     protected $mappedResources=[];
     protected $resource = null;
-    
+
     public function __invoke() : array
     {
         $this->mapResources();
         return $this->mappedResources;
     }
-    
+
     private function mapResources() : void
     {
         foreach ($this->resources as $resource) {
+            $resource = is_array($resource) ? (object) $resource : $resource;
             $this->mapFields($resource);
         }
     }
@@ -36,7 +37,7 @@ class ResourceMapper
                 }
             }
         }
-        
+
         $this->mappedResources[] = $tmpMappedResource;
         unset($tmpMappedResource);
         unset($this->resources);

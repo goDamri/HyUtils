@@ -27,7 +27,7 @@ class Success {
         ];
         $this->meta ? $build['meta'] = $this->meta: false;
         if( $this->resourceMapper ) {
-            if (isset($build['data']) && is_array($build['data']) && count($build['data']) > 0 && isset($build['data'][0]) && is_object($build['data'][0])) {
+            if (isset($build['data']) && is_array($build['data']) && count($build['data']) > 0 && isset($build['data'][0]) && (is_object($build['data'][0]) || is_array($build['data'][0]))) {
                 $build['data'] = (new $this->resourceMapper($build['data']))();
             }
             else {
